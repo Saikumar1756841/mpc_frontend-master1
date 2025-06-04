@@ -56,6 +56,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    console.log("BASE_URL from env:", BASE_URL);
     console.log("Submitting login with email:", email);
 
     fetch(`${BASE_URL}/accounts/login/`, {
