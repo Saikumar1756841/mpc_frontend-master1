@@ -674,7 +674,7 @@ function App() {
     window.location.href = "/login";
     return;
   }
-
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token) {
