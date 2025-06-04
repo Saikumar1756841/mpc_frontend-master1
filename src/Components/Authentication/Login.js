@@ -60,7 +60,7 @@ export default function SignIn() {
   event.preventDefault();
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   
-  fetch(`${BASE_URL}/accounts/login`, {
+  fetch(`${BASE_URL}/accounts/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
