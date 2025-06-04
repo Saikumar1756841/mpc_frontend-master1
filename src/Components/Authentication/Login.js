@@ -72,6 +72,7 @@ export default function SignIn() {
 
         if (!contentType || !contentType.includes("application/json")) {
           const text = await response.text();
+          console.log("Raw response text:", text);
           throw new Error(`Expected JSON, got: ${text}`);
         }
 
