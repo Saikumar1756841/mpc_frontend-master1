@@ -678,7 +678,8 @@ function App() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token) {
-      fetch("/accounts/getUser", {
+      fetch(`${BASE_URL}/accounts/getUser`, {
+
         method: "GET",
         headers: {
           "Content-Type": "application/json",
