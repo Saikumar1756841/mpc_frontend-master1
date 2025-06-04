@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     marginLeft: 21,
   },
 });
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export default function AllData() {
   const classes = useStyles();
@@ -47,7 +48,7 @@ export default function AllData() {
     };
 
     try {
-      const response = await fetch("api/sensorDataAPI/", settings);
+      const response = await fetch(`${BASE_URL}api/sensorDataAPI/`, settings);
       const data = await response.json();
       setLocationData([...data]);
     } catch (error) {
@@ -75,7 +76,7 @@ export default function AllData() {
     }
 
     const token = JSON.parse(localStorage.getItem("token"));
-    fetch("/accounts/getUser", {
+    fetch(`${BASE_URL}/accounts/getUser/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +109,7 @@ export default function AllData() {
         },
       };
 
-      const response = await fetch("api/locationDataAPI/", settings);
+      const response = await fetch(`${BASE_URL}api/locationDataAPI/`, settings);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
