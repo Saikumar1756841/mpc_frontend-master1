@@ -10,7 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 
 
 
@@ -48,7 +49,7 @@ export default function SignIn() {
     }
   }, []);
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-  const navigate = useNavigate();
+  const history = useHistory();
 
   // Redirect if token is available
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function SignIn() {
     console.log("Token in useEffect:", token);
     if (token) {
       console.log("Redirecting to home because token is present...");
-      navigate("/");
+      history.push("/");
 
 
     }
