@@ -12,10 +12,6 @@ import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-
-
-
-
 // Footer Copyright
 function Copyright(props) {
   return (
@@ -33,36 +29,18 @@ function Copyright(props) {
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(null);
-
-  // Check if token exists on mount
-  useEffect(() => {
+  const [token, setToken] = useState(() => {
     const storedToken = localStorage.getItem("token");
-    console.log("Checking stored token on mount:", storedToken);
-    if (storedToken) {
-      try {
-        setToken(JSON.parse(storedToken));
-      } catch (err) {
-        console.error("Invalid token in localStorage:", storedToken);
-        localStorage.removeItem("token"); // clean up bad value
-      }
+    try {
+      return storedToken ? JSON.parse(storedToken) : null;
+    } catch {
+      localStorage.removeItem("token");
+      return null;
     }
-  }, []);
+  });
+
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const history = useHistory();
-
-  // Redirect if token is available
-  useEffect(() => {
-    
-
-    console.log("Token in useEffect:", token);
-    if (token) {
-      console.log("Redirecting to home because token is present...");
-      history.push("/");
-
-
-    }
-  }, [token]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -103,6 +81,7 @@ export default function SignIn() {
         console.log("Storing token and setting state...");
         localStorage.setItem("token", JSON.stringify(data.token));
         setToken(data.token);
+        history.push("/"); // redirect immediately after login
       })
       .catch((error) => {
         console.error("Login error:", error.message);
