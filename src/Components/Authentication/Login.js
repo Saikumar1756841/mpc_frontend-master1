@@ -50,7 +50,7 @@ export default function SignIn() {
     console.log("Token in useEffect:", token);
     if (token) {
       console.log("Redirecting to home because token is present...");
-      window.location.href = `${BASE_URL}/`;
+      window.location.href = "/";
     }
   }, [token]);
 
