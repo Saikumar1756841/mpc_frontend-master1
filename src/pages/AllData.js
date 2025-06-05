@@ -48,7 +48,7 @@ export default function AllData() {
     };
 
     try {
-      const response = await fetch(`${BASE_URL}api/sensorDataAPI/`, settings);
+      const response = await fetch(`${BASE_URL}/api/sensorDataAPI/`, settings);
       const data = await response.json();
       setLocationData([...data]);
     } catch (error) {
@@ -109,7 +109,7 @@ export default function AllData() {
         },
       };
 
-      const response = await fetch(`${BASE_URL}api/locationDataAPI/`, settings);
+      const response = await fetch(`${BASE_URL}/api/locationDataAPI/`, settings);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
