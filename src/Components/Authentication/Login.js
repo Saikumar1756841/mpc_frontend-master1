@@ -10,7 +10,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 // Footer Copyright
 function Copyright(props) {
@@ -29,25 +28,31 @@ function Copyright(props) {
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(() => {
-    const storedToken = localStorage.getItem("token");
-    try {
-      return storedToken ? JSON.parse(storedToken) : null;
-    } catch {
-      localStorage.removeItem("token");
-      return null;
-    }
-  });
+  const [token, setToken] = useState(null);
 
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-  const history = useHistory();
+
+  // Check if token already exists
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      try {
+        setToken(JSON.parse(storedToken));
+      } catch {
+        localStorage.removeItem("token");
+      }
+    }
+  }, []);
+
+  // Redirect if token is available
+  useEffect(() => {
+    if (token) {
+      window.location.href = "/";
+    }
+  }, [token]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-    console.log("BASE_URL from env:", BASE_URL);
-    console.log("Submitting login with email:", email);
-
     fetch(`${BASE_URL}/accounts/login/`, {
       method: "POST",
       headers: {
@@ -57,17 +62,12 @@ export default function SignIn() {
     })
       .then(async (response) => {
         const contentType = response.headers.get("content-type");
-        console.log("Response content-type:", contentType);
-
         if (!contentType || !contentType.includes("application/json")) {
           const text = await response.text();
-          console.log("Raw response text:", text);
           throw new Error(`Expected JSON, got: ${text}`);
         }
 
         const data = await response.json();
-        console.log("Login response data:", data);
-
         if (data.errors && data.errors.non_field_errors) {
           alert("Email or Password is not valid");
           return;
@@ -78,10 +78,8 @@ export default function SignIn() {
           return;
         }
 
-        console.log("Storing token and setting state...");
         localStorage.setItem("token", JSON.stringify(data.token));
         setToken(data.token);
-        history.push("/"); // redirect immediately after login
       })
       .catch((error) => {
         console.error("Login error:", error.message);
