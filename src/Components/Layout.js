@@ -122,7 +122,7 @@ export const Layout = ({ children }) => {
       return;
     }
 
-    fetch("/accounts/getUser", {
+    fetch(`${BASE_URL}/accounts/getUser/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
