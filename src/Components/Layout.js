@@ -19,7 +19,7 @@ import { useHistory, useLocation } from "react-router";
 import { format } from "date-fns";
 
 const drawerWidth = 240;
-
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const useStyles = makeStyles((theme) => ({
   page: {
     backgroundColor: "#f9f9f9",
