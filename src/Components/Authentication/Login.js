@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 
 // Footer Copyright
@@ -45,14 +45,15 @@ export default function SignIn() {
       }
     }
   }, []);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   // Redirect if token is available
-  useEffect(() => {
-  if (token) {
-    navigate("/");  // ✅ replaces window.location.href
-  }
-}, [token, navigate]);
+    useEffect(() => {
+    if (token) {
+      history.push("/");  // ✅ navigates to homepage
+    }
+  }, [token, history]);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
